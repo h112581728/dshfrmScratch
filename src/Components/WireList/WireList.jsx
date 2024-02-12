@@ -97,7 +97,7 @@ function WireList({ isOpen }) {
       <div className='responsive-container'>
         <Grid>
           <Grid item xs={12} sm={10} md={8} lg={6}>
-            <Paper className='Paper' style={{ backgroundColor: 'rgba(246,246,246,1)', height: '28rem' }} >
+            <Paper className='Paper' style={{ backgroundColor: 'rgba(246,246,246,1)' }} >
               {loading ? (
                 <p>Loading, please wait...</p>
               ) : (

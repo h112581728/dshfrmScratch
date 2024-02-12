@@ -30,12 +30,13 @@ function Transactions({ isOpen }) {
   const [startDate, setStartDate] = useState('2023-10-10');
   const [endDate, setEndDate] = useState('2024-02-19');
   const [loading, setLoading] = useState(false);
-  const dataPerPage = 20
+  const [dataPerPage, setDatePerPage] = useState(20)
   const [page, setPage] = useState(1)
 
   useEffect(() => {
     fetchData();
   }, [page]);
+
 
   const fetchData = async () => {
     try {
@@ -106,24 +107,30 @@ function Transactions({ isOpen }) {
                   getRowId={(row) => row.rtrn}
                   columns={[
                     { field: 'rtrn', headerName: 'RTRN', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_date_pst', headerName: 'Date', width: 100, valueGetter: (params) => params.value.slice(0, 10), headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'transaction_date_pst', headerName: 'Created Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'processed_date', headerName: 'Processed Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'refunded_date', headerName: 'Refunded Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'returned_date', headerName: 'Returned Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_date', headerName: 'Wire Date (i)', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internationalwire_date', headerName: 'Wire Date (I)', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'transaction_paid_date', headerName: 'Paid Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0,10) === '1899-12-29' ? '' : params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'transaction_status', headerName: 'Status', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_amount_in_us_dollars', headerName: 'Amount', width: 80, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right' },
-                    { field: 'transaction_fee_or_commission_usd', headerName: 'Fee', width: 80, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
-                    { field: 'method_of_payment', headerName: 'Payment Type', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'mto', headerName: 'MTO', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'msb', headerName: 'MSB', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'method_of_payment', headerName: 'Payment Type', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'debit_card_issuing_network', headerName: 'Card Network', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'regulated', headerName: 'Regulated', width: 80, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'method_of_payout', headerName: 'Payout Type', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'debit_card_network_fees', headerName: 'Network', width: 80, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'debit_card_interchange_fees', headerName: 'Interchange', width: 80, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_paid_date', headerName: 'Paid Date', width: 100, headerClassName: 'table-header', valueGetter: (params) => params.value.slice(0, 10), cellClassName: 'row-prop' },
+                    { field: 'transaction_amount_in_us_dollars', headerName: 'Actual Amount', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right' },
+                    { field: 'settled_amount', headerName: 'Settled Amount', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
+                    { field: 'transaction_fee_or_commission_USD', headerName: 'Clients Revenue', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
+                    { field: 'network_fee', headerName: 'Network Fee', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
+                    { field: 'interchange', headerName: 'Interchange Fee', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
+                    { field: 'wallet_balance', headerName: 'Wallet Balance', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
                   ]}
                   rowHeight={20}
                   columnHeaderHeight={25}
                   hideFooter={true}
-                  pagination={false}
                 />
               )}
             </Paper>
