@@ -1,0 +1,71 @@
+.sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: rgba(89, 86, 192, 1);
+    position: fixed;
+    top: 0;
+    left: -150px;
+    transition: left 0.3s ease;
+    font-size: small;
+}
+
+.myfont {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.sidebar.open {
+    left: 0px;
+}
+
+.toggle-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 9999;
+    /*couldnt fix this error instead setting z-index*/
+}
+
+nav {
+    margin-top: 50px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav>ul>li {
+    margin-bottom: 10px;
+}
+
+button div div {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button:hover {
+    background-color: rgba(109, 105, 231, 1);
+}
+
+.mycontents {
+    top: 0;
+    left: 200px;
+    width: calc(100% - 200px);
+    position: relative;
+    transition: left 0.3s ease, width 0.3s ease;
+    overflow-x: hidden;
+}
+
+.mycontents.close {
+    left: 50px;
+    width: 96.3%;
+}
