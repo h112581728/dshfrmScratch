@@ -1,5 +1,5 @@
 import React from 'react';
-import './Transactions.css';
+import './View Transactions.css';
 
 function DatePicker({ startDate, clickHandler, label }) {
     return (

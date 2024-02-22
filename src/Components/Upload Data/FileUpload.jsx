@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UploadIcon from '../../assets/upload.svg';
-import './Upload.css';
+import './Upload Data.css';
 
 const FileUpload = ({ link }) => {
     const [file, setFile] = useState(null);

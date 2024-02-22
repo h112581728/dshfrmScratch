@@ -1,5 +1,5 @@
 import React from 'react';
-import './Transactions.css';
+import './Machpay Wire.css';
 
 function TransactBtns({ onClick, label }) {
     return (

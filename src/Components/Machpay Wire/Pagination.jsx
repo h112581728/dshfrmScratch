@@ -1,6 +1,5 @@
 import ReactPaginate from 'react-paginate'
 
-
 function Pagination({ click, pages }) {
     return (
         <>

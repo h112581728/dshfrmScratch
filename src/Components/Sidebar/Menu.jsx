@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
-function Menu({ icon, text, link, width }) {
+function Menu({ icon, text, link, width, classV, handler }) {
+
     return <>
         <Link to={link}>
-            <button className='px-3 py-1 text-left' style={{ width: '200px' }}>
+            <button className={classV} style={{ width: '200px' }} onClick={handler}>
                 <div style={{ display: 'inline-block' }}>
                     <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>
                         <img src={icon} width={width} />

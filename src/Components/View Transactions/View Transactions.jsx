@@ -1,36 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Grid, Paper } from '@mui/material';
-
 import DatePicker from './DatePicker';
 import TransactBtns from './TransactBtns';
 import Pagination from './Pagination';
-import * as XLSX from 'xlsx';
+import { jsonToExcel , downloadExcel} from '../Excel Utilities/excel';
 
-function jsonToExcel(jsonData) {
-  const worksheet = XLSX.utils.json_to_sheet(jsonData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  const excelData = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-  const url = URL.createObjectURL(excelData);
-  return url;
-}
-
-function downloadExcel(url) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', 'data.xlsx');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
 function Transactions({ isOpen }) {
   const [filteredData, setFilteredData] = useState([]);
   const [startDate, setStartDate] = useState('2023-10-10');
   const [endDate, setEndDate] = useState('2024-02-19');
   const [loading, setLoading] = useState(false);
   const [dataPerPage, setDatePerPage] = useState(20)
+  const [mto, setMto] = useState('');
   const [page, setPage] = useState(1)
 
   useEffect(() => {
@@ -41,7 +23,11 @@ function Transactions({ isOpen }) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const url = `http://localhost:3000/transaction/view?startDate=${startDate}&endDate=${endDate}&page=${page}&pageSize=${dataPerPage}`;
+      let url = `http://localhost:3000/transaction/view?startDate=${startDate}&endDate=${endDate}&page=${page}&pageSize=${dataPerPage}`;
+      if (mto !==''){
+        url += `&filterValue=${mto}`;
+      }
+      console.log("clicked")
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -68,7 +54,10 @@ function Transactions({ isOpen }) {
   const handleExport = () => {
     const fetchallData = async () => {
       try {
-        const url = `http://localhost:3000/transaction/view?startDate=${startDate}&endDate=${endDate}`;
+        let url = `http://localhost:3000/transaction/view?startDate=${startDate}&endDate=${endDate}`;
+        if (mto !==''){
+          url += `&filterValue=${mto}`;
+        }
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -90,6 +79,19 @@ function Transactions({ isOpen }) {
     <div className={`mycontents ${isOpen ? '' : 'close'} px-5 py-2`}>
       <div className='myfont py-4 uppercase'>Transaction Reports</div>
       <div style={{ marginBottom: '0.75rem' }}>
+      <div className='date-picker'>
+          <div className='date-label'>Affiliate's Name</div>
+          <div>
+            <input
+              type='text'
+              label="Affiliate's Name"
+              value={mto}
+              onChange={(e) => setMto(e.target.value)}
+              className='date-input'
+            />
+          </div>
+        </div>
+
         <DatePicker startDate={startDate} clickHandler={setStartDate} label='Start Date' />
         <DatePicker startDate={endDate} clickHandler={setEndDate} label='End Date' />
         <TransactBtns onClick={handleFilter} label='Filter' />
@@ -106,13 +108,13 @@ function Transactions({ isOpen }) {
                   rows={filteredData}
                   getRowId={(row) => row.rtrn}
                   columns={[
-                    { field: 'rtrn', headerName: 'RTRN', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'rtrn', headerName: 'RTRN', width: 153, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'transaction_date_pst', headerName: 'Created Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'processed_date', headerName: 'Processed Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'refunded_date', headerName: 'Refunded Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'returned_date', headerName: 'Returned Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'internalwire_date', headerName: 'Wire Date (i)', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'internationalwire_date', headerName: 'Wire Date (I)', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_date', headerName: 'Machpay Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internationalwire_date', headerName: 'Payout Partner Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'transaction_paid_date', headerName: 'Paid Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0,10) === '1899-12-29' ? '' : params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'transaction_status', headerName: 'Status', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'mto', headerName: 'MTO', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },

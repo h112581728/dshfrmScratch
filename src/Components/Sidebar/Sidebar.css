@@ -69,3 +69,12 @@ button:hover {
     left: 50px;
     width: 96.3%;
 }
+
+.hidden{
+    display: none;
+}
+
+.submenu{
+    background-color: rgb(62, 58, 177);
+    margin: 0;
+}
