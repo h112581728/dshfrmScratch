@@ -126,7 +126,8 @@ function IntraWire({ isOpen }) {
                     { field: 'mto', headerName: 'MTO', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'msb', headerName: 'MSB', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'method_of_payment', headerName: 'Card/ACH', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'status', headerName: 'Wire Status', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'transaction_status', headerName: 'Wire Status', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_reversal_status', headerName: 'Reversal Status', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'transaction_amount_in_us_dollars', headerName: 'Transaction Amount', width: 130, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right' },
                     { field: 'wallet_balance', headerName: 'Wallet Balance', width: 130, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right' },
 

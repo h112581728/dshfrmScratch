@@ -109,14 +109,9 @@ function Transactions({ isOpen }) {
                   getRowId={(row) => row.rtrn}
                   columns={[
                     { field: 'rtrn', headerName: 'RTRN', width: 153, headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_date_pst', headerName: 'Created Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'processed_date', headerName: 'Processed Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'refunded_date', headerName: 'Refunded Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'returned_date', headerName: 'Returned Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'internalwire_date', headerName: 'Machpay Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'internationalwire_date', headerName: 'Payout Partner Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_paid_date', headerName: 'Paid Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0,10) === '1899-12-29' ? '' : params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
-                    { field: 'transaction_status', headerName: 'Status', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'transaction_status', headerName: 'TxnStatus', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_reversal_status', headerName: 'WireRev', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internationalwire_reversal_status', headerName: 'PayoutRev', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'mto', headerName: 'MTO', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'msb', headerName: 'MSB', width: 120, headerClassName: 'table-header', cellClassName: 'row-prop' },
                     { field: 'method_of_payment', headerName: 'Payment Type', width: 100, headerClassName: 'table-header', cellClassName: 'row-prop' },
@@ -129,6 +124,16 @@ function Transactions({ isOpen }) {
                     { field: 'network_fee', headerName: 'Network Fee', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
                     { field: 'interchange', headerName: 'Interchange Fee', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
                     { field: 'wallet_balance', headerName: 'Wallet Balance', width: 100, valueGetter: (params) => Math.round(params.value * 1000) / 1000, headerClassName: 'table-header', cellClassName: 'row-prop', align: 'right', headerAlign: 'center' },
+                    { field: 'transaction_date_pst', headerName: 'Created Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'processed_date', headerName: 'Processed Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'refunded_date', headerName: 'Refunded Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'returned_date', headerName: 'Returned Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'transaction_paid_date', headerName: 'Paid Date', width: 100, valueGetter: (params) => params.value ? params.value.slice(0,10) === '1899-12-29' ? '' : params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_date', headerName: 'Machpay Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internationalwire_date', headerName: 'Payout Partner Wire Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internalwire_reversal_date', headerName: 'Machpay Reversal Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    { field: 'internationalwire_reversal_date', headerName: 'Payout Reversal Date', width: 120, valueGetter: (params) => params.value ? params.value.slice(0, 10) : '', headerClassName: 'table-header', cellClassName: 'row-prop' },
+                    
                   ]}
                   rowHeight={20}
                   columnHeaderHeight={25}
