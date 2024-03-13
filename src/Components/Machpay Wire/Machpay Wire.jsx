@@ -135,7 +135,6 @@ function IntraWire({ isOpen }) {
                   rowHeight={20}
                   columnHeaderHeight={25}
                   hideFooter={true}
-                  pagination={false}
                 />
               )}
             </Paper>
